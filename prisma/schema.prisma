@@ -20,7 +20,7 @@ model User{
   password        String          
   name            String
   role            String          @default("admin")
-  posts           post[]
+  posts           Post[]
 }
 
 
