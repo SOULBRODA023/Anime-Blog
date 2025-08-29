@@ -1,4 +1,5 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
+import { generateToken } from "../util/jwt.js";
 const prisma = new PrismaClient();
 const logincontroller = async (req, res) => {
     try {
@@ -20,10 +21,17 @@ const logincontroller = async (req, res) => {
         const isvalid = await bcrypt.compare(password, user.password);
         if (!isvalid) return res.status(400).json({
             error: "incorrect username or password"
-        });
+        }); 
+        //create JWT token
+        const token = generateToken({
+            id: user.id,
+            email: user.email
+        })
         //send a success message alongside the user details
         res.json({
-            message: "login successful,", user: {
+            message: "login successful,",
+            token,
+            user: {
                 id: user.id,
                 name: user.name,
                 email: user.email

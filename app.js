@@ -3,6 +3,7 @@ const app = express();
 import postsRouter from "./server/routes/posts.js";
 import signupRouter from "./server/routes/registerauthor.js";
 import loginRouter from "./server/routes/login.js";
+import { configDotenv } from "dotenv";
 
 app.use(express.json());
 app.get("/", (req, res) => {
