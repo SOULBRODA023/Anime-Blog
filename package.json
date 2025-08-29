@@ -1,0 +1,24 @@
+{
+  "name": "anime-blog",
+  "version": "1.0.0",
+  "description": "A blog API used to give summary of all animes watched",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/client": "^6.15.0",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.15.0"
+  }
+}
