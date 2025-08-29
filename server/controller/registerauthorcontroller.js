@@ -29,7 +29,7 @@ const registerAuthor = async(req, res) => {
                 hashPassword
             }
         });
-        res.status(201).json({ message: `You are welcome ${name}` });
+        res.status(201).json({ message: `You are welcome`, newAuthor });
           console.log("user added")
     }
     catch(err) {
