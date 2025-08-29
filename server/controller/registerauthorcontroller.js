@@ -2,10 +2,15 @@
 // const router = express.Router();
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import bcrypt from "bcryptjs"
 
 const registerAuthor = async(req, res) => {
     try {
         const [name, email, password] = req.body;
+        
+        //encrypyt password using bcrypt.js
+        const hashPassword = await bcrypt.hash(password, 12);
+
         //check if user already exists by email
         const existingUser = await prisma.user.findFirst({
             where: {
@@ -21,7 +26,7 @@ const registerAuthor = async(req, res) => {
             data: {
                 name,
                 email,
-                password
+                hashPassword
             }
         });
         res.status(201).json({ message: `You are welcome ${name}` });
