@@ -1,7 +1,10 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
-import logincontroller from "../controller/logincontroller";
-const prisma = new PrismaClient();
+
+import logincontroller from "../controller/logincontroller.js";
+
 const router = express.Router();
 
 router.get("/", logincontroller);
+
+
+export default router;
