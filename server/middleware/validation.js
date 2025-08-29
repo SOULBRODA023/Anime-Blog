@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-const signupValidation = [
+export const signupValidation = [
     body('name')
         .notEmpty()
         .withMessage("Name is required")
@@ -18,7 +18,7 @@ const signupValidation = [
         .withMessage("password must be between 6 to 20 characters")
 ]
 
-const loginValidation = [
+export const loginValidation = [
     body('email')
         .notEmpty()
         .withMessage("Email is required")
@@ -31,4 +31,3 @@ const loginValidation = [
         .withMessage("password must be between 6 to 20 characters")
 ]
 
-export default { signupValidation, loginValidation };
