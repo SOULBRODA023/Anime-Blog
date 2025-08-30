@@ -12,7 +12,6 @@ router.get("/", async (req, res) => {
                 createdAt: "desc"
             }
         });//latest posts first
-        res.send("post is here");
         res.json(posts)//send posts as response
       
     }
@@ -20,7 +19,7 @@ router.get("/", async (req, res) => {
         console.error(err);
         res.status(500).json({
             error: "Something went wrong"
-        })
+        });
     }
 });
 

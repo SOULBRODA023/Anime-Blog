@@ -1,9 +1,10 @@
 import { PrismaClient } from "../../generated/prisma/index.js";
 import { generateToken } from "../util/jwt.js";
+import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 const logincontroller = async (req, res) => {
     try {
-        const [name, password] = req.body;
+        const {email, password} = req.body;
     
         //check if email exists in database
         const user = await prisma.user.findUnique(
@@ -41,7 +42,7 @@ const logincontroller = async (req, res) => {
     catch (err) {
         console.error(err);
         res.status(400).json({
-            error: "server error; something went wrong"
+            message: "server error; something went wrong"
         })
     }
 }

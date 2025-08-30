@@ -4,7 +4,7 @@ import logincontroller from "../controller/logincontroller.js";
 
 const router = express.Router();
 
-router.get("/", logincontroller);
+router.post("/", logincontroller);
 
 
 export default router;

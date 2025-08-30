@@ -1,15 +1,23 @@
 import express, { Router } from "express";
-const app = express();
 import postsRouter from "./server/routes/posts.js";
 import signupRouter from "./server/routes/registerauthor.js";
 import loginRouter from "./server/routes/login.js";
 import { configDotenv } from "dotenv";
+import cors from "cors"
+const app = express();
+
+
+app.use(
+	cors({
+		origin: "http://localhost:5173", // your React app
+		methods: ["GET", "POST", "PUT", "DELETE"],
+		credentials: true,
+	})
+);
 
 app.use(express.json());
-app.get("/", (req, res) => {
-    res.send("you are in")
-});
 
+//routes
 app.use("/api/posts", postsRouter);
 app.use("/api/registerauthor", signupRouter);
 app.use("/api/login", loginRouter);
