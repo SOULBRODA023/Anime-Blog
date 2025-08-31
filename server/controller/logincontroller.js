@@ -15,19 +15,17 @@ const logincontroller = async (req, res) => {
             }
         )
         if (!user) {
-            res.status(400).json({ error: "incorrect username or password" })
+            res.status(400).json({ message: "incorrect username or password" })
         }
 
         //compare the password written with that in the database
         const isvalid = await bcrypt.compare(password, user.password);
         if (!isvalid) return res.status(400).json({
-            error: "incorrect username or password"
+            message: "incorrect username or password"
         }); 
         //create JWT token
-        const token = generateToken({
-            id: user.id,
-            email: user.email
-        })
+      const token = generateToken({ id: user.id, email: user.email });
+
         //send a success message alongside the user details
         res.json({
             message: "login successful,",

@@ -18,6 +18,7 @@ app.use(
 app.use(express.json());
 
 //routes
+
 app.use("/api/posts", postsRouter);
 app.use("/api/registerauthor", signupRouter);
 app.use("/api/login", loginRouter);

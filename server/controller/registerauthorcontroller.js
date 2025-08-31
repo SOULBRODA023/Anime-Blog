@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 const registerAuthor = async (req, res) => {
 	try {
-		const { name, email, password } = req.body;
+		const { username, email, password } = req.body;
 
 		// Check if user already exists
 		const existingUser = await prisma.user.findFirst({ where: { email } });
@@ -19,7 +19,7 @@ const registerAuthor = async (req, res) => {
 		// Add a new author
 		const newAuthor = await prisma.user.create({
 			data: {
-				name,
+				name:username,
 				email,
 				password: hashPassword,
 			},

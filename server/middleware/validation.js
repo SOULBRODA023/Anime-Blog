@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export const signupValidation = [
-    body('name')
+    body('username')
         .notEmpty()
         .withMessage("Name is required")
         .isLength({ min: 3, max: 20 })

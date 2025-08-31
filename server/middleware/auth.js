@@ -1,12 +1,19 @@
-import { verifyToken } from "../util/jwt";
+import { verifyToken } from "../util/jwt.js";
 
-export const authenticate = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return
-    res.statud(401).json({ error: "Please log in to access this page." });
-    const payload = verifyToken(token);
-    if (!payload) return res.status(403).json({ message: "session expired, please login again" })
-    req.user = payload;
-    next();
+export function auth(req, res, next) {
+	const authHeader = req.headers["authorization"];
+
+	if (!authHeader) {
+		return res.status(403).json({ message: "No token provided" });
+	}
+
+	const token = authHeader.split(" ")[1]; // "Bearer <token>"
+
+	const decoded = verifyToken(token);
+	if (!decoded) {
+		return res.status(403).json({ message: "Invalid or expired token" });
+	}
+
+	req.user = decoded; // attach user info to request
+	next();
 }
