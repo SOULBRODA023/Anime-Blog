@@ -1,10 +1,11 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import { auth } from "../middleware/auth";
 const prisma = new PrismaClient();
 const router = express.Router();
 
 //  Get all posts
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
 	try {
 		const posts = await prisma.post.findMany();
 		res.json(posts);
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 //  Get one post by ID
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
 	try {
 		const { id } = req.params;
 		const post = await prisma.post.findUnique({
@@ -34,26 +35,14 @@ router.get("/:id", async (req, res) => {
 });
 
 //  Create a new post
-//  Create a new post
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
 	try {
-		const { title, content, status, authorId } = req.body;
+		const { title, content, status } = req.body;
 
-		// Validate that authorId is provided
-		if (!authorId) {
-			return res.status(400).json({ message: "authorId is required" });
-		}
+		const userId = req.user.id; // decoded from token 🎉
 
 		const newPost = await prisma.post.create({
-			data: {
-				title,
-				content,
-				status: status || "DRAFT",
-				author: {
-					connect: { id: Number(authorId) }, // ✅ properly link user
-				},
-			},
-			include: { author: true }, // Optional: return author details
+			data: { title, content, status, authorId: userId },
 		});
 
 		res.status(201).json(newPost);
@@ -64,8 +53,10 @@ router.post("/", async (req, res) => {
 });
 
 
+
+
 //  Update a post
-router.put("/:id", async (req, res) => {
+router.put("/:id", auth,async (req, res) => {
 	try {
 		const { id } = req.params;
 		const { title, content, status } = req.body;
@@ -83,7 +74,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Delete a post
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
 	try {
 		const { id } = req.params;
 		await prisma.post.delete({
