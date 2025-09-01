@@ -34,18 +34,35 @@ router.get("/:id", async (req, res) => {
 });
 
 //  Create a new post
+//  Create a new post
 router.post("/", async (req, res) => {
 	try {
 		const { title, content, status, authorId } = req.body;
+
+		// Validate that authorId is provided
+		if (!authorId) {
+			return res.status(400).json({ message: "authorId is required" });
+		}
+
 		const newPost = await prisma.post.create({
-			data: { title, content, status, authorId },
+			data: {
+				title,
+				content,
+				status: status || "DRAFT",
+				author: {
+					connect: { id: Number(authorId) }, // ✅ properly link user
+				},
+			},
+			include: { author: true }, // Optional: return author details
 		});
+
 		res.status(201).json(newPost);
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ message: "Server error" });
 	}
 });
+
 
 //  Update a post
 router.put("/:id", async (req, res) => {
