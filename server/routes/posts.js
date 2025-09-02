@@ -1,11 +1,11 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
-import auth  from "../middleware/auth";
+import Auth from "../middleware/auth"
 const prisma = new PrismaClient();
 const router = express.Router();
 
 //  Get all posts
-router.get("/", auth, async (req, res) => {
+router.get("/", Auth, async (req, res) => {
 	try {
 		const posts = await prisma.post.findMany();
 		res.json(posts);
@@ -16,7 +16,7 @@ router.get("/", auth, async (req, res) => {
 });
 
 //  Get one post by ID
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", Auth, async (req, res) => {
 	try {
 		const { id } = req.params;
 		const post = await prisma.post.findUnique({
@@ -35,7 +35,7 @@ router.get("/:id", auth, async (req, res) => {
 });
 
 //  Create a new post
-router.post("/", auth, async (req, res) => {
+router.post("/", Auth, async (req, res) => {
 	try {
 		const { title, content, status } = req.body;
 
@@ -56,7 +56,7 @@ router.post("/", auth, async (req, res) => {
 
 
 //  Update a post
-router.put("/:id", auth,async (req, res) => {
+router.put("/:id", Auth,async (req, res) => {
 	try {
 		const { id } = req.params;
 		const { title, content, status } = req.body;
@@ -74,7 +74,7 @@ router.put("/:id", auth,async (req, res) => {
 });
 
 // Delete a post
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", Auth, async (req, res) => {
 	try {
 		const { id } = req.params;
 		await prisma.post.delete({
