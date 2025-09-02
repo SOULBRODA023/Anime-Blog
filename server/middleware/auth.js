@@ -1,6 +1,6 @@
 import { verifyToken } from "../util/jwt.js";
 
-export function Auth(req, res, next) {
+export default function Auth(req, res, next) {
 	const authHeader = req.headers["authorization"];
 
 	if (!authHeader) {
