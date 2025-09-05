@@ -9,7 +9,7 @@ const app = express();
 
 app.use(
 	cors({
-		origin: ["http://localhost:5173", "https://otaku-blog.netlify.app"],
+		origin: ["https://otaku-blog.netlify.app","https://otaku-stori.netlify.app"],
 		methods: ["GET", "POST", "PUT", "DELETE"],
 		credentials: true,
 	})
