@@ -94,7 +94,7 @@ router.delete("/:id", async (req, res) => {
 router.post("/:id/comments", async (req, res) => {
 	try {
 		const { id } = req.params;
-		const { title, name, content } = req.body;
+		const { name, content, title } = req.body;
 
 		if (!name || !content) {
 			return res
@@ -106,11 +106,13 @@ router.post("/:id/comments", async (req, res) => {
 		const post = await prisma.post.findUnique({
 			where: { id: Number(id) },
 		});
-		if (!post) return res.status(404).json({ message: "Post not found" });
+		if (!post) {
+			return res.status(404).json({ message: "Post not found" });
+		}
 
 		const newComment = await prisma.comment.create({
 			data: {
-				title: title || "Otaku Comment", // fallback fixed title
+				title: title || "Otaku Comment",
 				name,
 				content,
 				postId: Number(id),
